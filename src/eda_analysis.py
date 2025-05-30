@@ -8,6 +8,7 @@ from sklearn.decomposition import LatentDirichletAllocation
 from collections import Counter
 from urllib.parse import urlparse
 import nltk
+import sklearn
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 nltk.download('punkt')
