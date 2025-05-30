@@ -1,4 +1,3 @@
-%Pip install pandas numpy matplotlib seaborn scikit-learn nltk
 # EDA Module for News Articles
 import pandas as pd
 import numpy as np
