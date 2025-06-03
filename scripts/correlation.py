@@ -109,4 +109,17 @@ def interpret_correlation(r, p):
     significance = "not statistically significant" if p > 0.05 else "statistically significant"
     
     return f"{strength} {direction} correlation ({significance})"
+def plot_correlation(df, sentiment_col='vader_compound', return_col='daily_return', title=None):
+    """
+    Plots the correlation between a sentiment column and daily return column.
+    """
+    import matplotlib.pyplot as plt
+    import seaborn as sns
 
+    plt.figure(figsize=(8, 5))
+    sns.regplot(x=sentiment_col, y=return_col, data=df)
+    plt.xlabel(sentiment_col.replace('_', ' ').title())
+    plt.ylabel(return_col.replace('_', ' ').title())
+    plt.title(title or f'Correlation: {sentiment_col} vs {return_col}')
+    plt.tight_layout()
+    plt.show()
