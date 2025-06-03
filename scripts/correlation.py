@@ -12,23 +12,26 @@ sia = SentimentIntensityAnalyzer()
 
 def align_data(news_df, stock_df):
     """
-    Align news and stock data by date
+    Align news and stock data by date and stock symbol.
     """
-    # Convert dates to datetime format
+    # Ensure both DataFrames have 'date' and 'stock' columns
     news_df['date'] = pd.to_datetime(news_df['date']).dt.date
     stock_df['date'] = pd.to_datetime(stock_df['date']).dt.date
-    
-    # Group news by date and calculate average sentiment
-    daily_sentiment = news_df.groupby('date').apply(calculate_sentiment).reset_index()
-    
+
+    # If stock_df does not have 'stock' column (single stock), add it
+    if 'stock' not in stock_df.columns:
+        stock_df['stock'] = news_df['stock'].unique()[0] if 'stock' in news_df.columns else 'AAPL'
+
+    # Group news by date and stock, calculate average sentiment
+    daily_sentiment = news_df.groupby(['date', 'stock']).apply(calculate_sentiment).reset_index()
+
     # Calculate daily stock returns
     stock_df['daily_return'] = stock_df['close'].pct_change() * 100
-    
-    # Merge the datasets
-    merged_df = pd.merge(daily_sentiment, stock_df, on='date', how='inner')
-    
-    return merged_df.dropna()
 
+    # Merge on both date and stock
+    merged_df = pd.merge(daily_sentiment, stock_df, on=['date', 'stock'], how='inner')
+
+    return merged_df.dropna()
 def calculate_sentiment(news_group):
     """
     Calculate sentiment scores for a group of news articles
