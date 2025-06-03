@@ -5,7 +5,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import pearsonr
-
+import nltk
 # Initialize NLTK's VADER sentiment analyzer (more suited for financial news)
 nltk.download('vader_lexicon')
 sia = SentimentIntensityAnalyzer()
