@@ -1,6 +1,6 @@
 # Price Prediction from News Sentiment
 
-This project analyzes the relationship between news sentiment and stock price movements, and provides quantitative analysis of historical stock data using technical indicators.It also perform th6e correlation analysis
+This project analyzes the relationship between news sentiment and stock price movements, and provides quantitative analysis of historical stock data using technical indicators.It also perform the correlation analysis
 
 ---
 
