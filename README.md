@@ -1,7 +1,8 @@
-# price-prediction-from-news-sentiment
-# Task 1: Exploratory Data Analysis (EDA) for News-Based Price Prediction
+# Price Prediction from News Sentiment
 
-This task focuses on performing exploratory data analysis (EDA) on a dataset of news articles related to stock price prediction. The analysis includes descriptive statistics, time series analysis, text/topic modeling, and publisher analysis.
+This project analyzes the relationship between news sentiment and stock price movements, and provides quantitative analysis of historical stock data using technical indicators.
+
+---
 
 ## Project Structure
 
@@ -9,64 +10,84 @@ This task focuses on performing exploratory data analysis (EDA) on a dataset of 
 price-prediction-from-news-sentiment/
 │
 ├── data/
-│   └── raw_analyst_ratings.csv
+│   ├── raw_analyst_ratings.csv         # News headlines and metadata
+│   └── finance_data/                   # Historical stock price CSVs
+│        ├── AAPL_historical_data
+│        ├── NVDA_historical_data
+│        └── ... (other tickers)
 ├── notebooks/
-│   └── task.ipynb
-├── src/
-│   └── eda_analysis.py
+│   ├── task.ipynb                      # News sentiment EDA and analysis
+│   └── Quantitative analysis.ipynb     # Technical indicator and price analysis
+├── scripts/
+│   └── correlation.py                  # Functions for aligning and correlating news & price data
+├── downloads/
+│   └── ta_lib-0.6.3-cpXXX.whl          # TA-Lib wheel for Windows
 └── README.md
 ```
 
-## Main Files
-
-- **notebooks/task.ipynb**: Jupyter notebook with step-by-step EDA, visualizations, and code explanations.
-- **src/eda_analysis.py**: Python module containing reusable EDA functions for statistics, topic modeling, and publisher analysis.
-
-## How to Use
-
-1. **Install Requirements**
-   - Make sure you have Python 3.8+.
-   - Install dependencies:
-     ```
-     pip install pandas numpy matplotlib seaborn scikit-learn nltk
-     ```
-
-2. **Prepare Data**
-   - Place your news dataset (e.g., `raw_analyst_ratings.csv`) in the `data/` folder.
-
-3. **Run EDA Notebook**
-   - Open `notebooks/task.ipynb` in Jupyter or VS Code.
-   - Run the cells to see descriptive statistics, time series plots, and text/topic analysis.
-
-4. **Use EDA Module**
-   - Import and use functions from `src/eda_analysis.py` in your own scripts or notebooks:
-     ```python
-     from src.eda_analysis import load_data, text_length_statistics, extract_topics, analyze_time_series, analyze_publishers
-
-     df = load_data('data/raw_analyst_ratings.csv')
-     text_length_statistics(df)
-     extract_topics(df, text_column='headline')
-     analyze_time_series(df)
-     analyze_publishers(df)
-     ```
+---
 
 ## Features
 
-- **Descriptive Statistics**: Headline length, outlier detection, publisher frequency.
-- **Time Series Analysis**: Articles per day, month, year, hour, and weekday.
-- **Text Analysis**: Topic modeling using LDA.
-- **Publisher Analysis**: Top publishers and domain extraction.
+### 1. News Sentiment Analysis (`notebooks/task.ipynb`)
+- Loads and cleans news headline data.
+- Calculates headline length statistics and visualizes distributions.
+- Analyzes publication frequency by stock, publisher, and date.
+- Extracts date components (year, month, day, hour, weekday) for time series analysis.
+- Performs topic modeling on headlines using LDA.
+- Calculates sentiment scores using TextBlob and VADER.
+- Visualizes sentiment distributions and publication trends.
 
-## Customization
+### 2. Quantitative Stock Analysis (`notebooks/Quantitative analysis.ipynb`)
+- Loads historical stock price data for major tickers.
+- Computes technical indicators with TA-Lib:
+  - SMA, EMA, RSI, MACD
+- Calculates daily and cumulative returns, and rolling volatility.
+- Normalizes features for comparison and modeling.
+- Visualizes price, indicators, returns, and volatility.
 
-- Change column names in function arguments if your dataset uses different names (e.g., `headline`, `content`, `publisher`, `date`).
-- Adjust the number of topics or top words in `extract_topics`.
+### 3. Correlation Analysis (`scripts/correlation.py`)
+- Aligns news and stock data by date and ticker.
+- Aggregates daily sentiment and merges with price data.
+- Computes and visualizes correlation between sentiment and returns.
 
+---
+
+## How to Run
+
+1. **Install Requirements**
+   ```
+   pip install pandas numpy matplotlib seaborn scikit-learn nltk textblob
+   pip install <path-to-ta-lib-wheel>
+   ```
+
+2. **Prepare Data**
+   - Place news data in `data/raw_analyst_ratings.csv`.
+   - Place historical stock CSVs in `data/finance_data/`.
+
+3. **Run Notebooks**
+   - Open `notebooks/task.ipynb` for news sentiment analysis.
+   - Open `notebooks/Quantitative analysis.ipynb` for technical analysis.
+
+4. **Use Correlation Functions**
+   - Import from `scripts/correlation.py` in your notebook:
+     ```python
+     from scripts.correlation import align_data, analyze_correlation
+     merged_df = align_data(news_df, stock_df)
+     analyze_correlation(merged_df)
+     ```
 ## Example Visualizations
 
 - Distribution of headline lengths
-- Publication frequency over time
-- Articles published by hour of day
-- Top publisher domains
-- Top publications per selected stocks with historical data
+- Publication counts by stock and publisher
+- Sentiment distribution histograms
+- Stock price with SMA/EMA overlays
+- RSI and MACD indicator plots
+- Correlation scatterplots between sentiment and returns
+
+## Requirements
+
+- Python 3.8+
+- pandas, numpy, matplotlib, seaborn, scikit-learn, nltk, textblob
+- TA-Lib (install via wheel for Windows)
 
